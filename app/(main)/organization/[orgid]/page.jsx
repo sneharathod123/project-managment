@@ -3,17 +3,17 @@ import { redirect } from "next/navigation";
 import OrgSwitcher from "@/components/org-switcher";
 import { getOrganization } from "@/actions/organizations";
 import ProjectList from "./_components/project-list";
-import UserIssues from "./_components/user-issues";
+// import UserIssues from "./_components/user-issues";
 
 export default async function OrganizationPage({ params }) {
-  const { orgid } = params;
+  const { orgId } = params;
   const { userId } = auth();
 
   if (!userId) {
     redirect("/sign-in");
   }
 
-  const organization = await getOrganization(orgid);
+  const organization = await getOrganization(orgId);
 
   if (!organization) {
     return <div>Organization not found</div>;
@@ -31,9 +31,9 @@ export default async function OrganizationPage({ params }) {
       <div className="mb-4">
         <ProjectList orgId={organization.id} />
       </div>
-      <div className="mt-8">
+      {/* <div className="mt-8">
         <UserIssues userId={userId} />
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -44,7 +44,7 @@ export async function getOrganization(slug) {
   return organization;
 }
 
-export async function getProjects(orgid) {
+export async function getProjects(orgId) {
   const { userId } = auth();
   if (!userId) {
     throw new Error("Unauthorized");
@@ -59,7 +59,7 @@ export async function getProjects(orgid) {
   }
 
   const projects = await db.project.findMany({
-    where: { organizationId: orgid },
+    where: { organizationId: orgId },
     orderBy: { createdAt: "desc" },
   });
 
@@ -67,9 +67,9 @@ export async function getProjects(orgid) {
 }
 
 export async function getUserIssues(userId) {
-  const { orgid } = auth();
+  const { orgId } = auth();
 
-  if (!userId || !orgid) {
+  if (!userId || !orgId) {
     throw new Error("No user id or organization id found");
   }
 
@@ -85,7 +85,7 @@ export async function getUserIssues(userId) {
     where: {
       OR: [{ assigneeId: user.id }, { reporterId: user.id }],
       project: {
-        organizationId: orgid,
+        organizationId: orgId,
       },
     },
     include: {
@@ -99,7 +99,7 @@ export async function getUserIssues(userId) {
   return issues;
 }
 
-export async function getOrganizationUsers(orgid) {
+export async function getOrganizationUsers(orgId) {
   const { userId } = auth();
   if (!userId) {
     throw new Error("Unauthorized");
@@ -115,7 +115,7 @@ export async function getOrganizationUsers(orgid) {
 
   const organizationMemberships =
     await clerkClient().organizations.getOrganizationMembershipList({
-      organizationId: orgid,
+      organizationId: orgId,
     });
 
   const userIds = organizationMemberships.data.map(
